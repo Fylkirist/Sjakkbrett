@@ -60,7 +60,15 @@ function movepiece(column,row){
                         }
                 }
             }
-        case "n":
+            case "n":
+                if((Math.abs(storedpiece['row'] - row) == 2 && 
+                Math.abs(storedpiece['column'] - column) == 1) || 
+                (Math.abs(storedpiece['row'] - row) == 1 ))
+                {
+                if(currentstate[row][column] !='' && currentstate[storedpiece["row"]] // sjekker at destinasjon ikke er okkupert.
+                [storedpiece["column"]][0] == currentstate[row][column][0]){
+                    return;
+                }}
 
         case "b":
 
