@@ -42,6 +42,7 @@ function movepiece(column,row){
                 }
                 else(storedpiece['row']>row)
                 {
+                else (storedpiece['row']>row){
                     for(i=storedpiece['row'];i>row;i++)
                     {
                         if (currentstate[i]!='')
@@ -62,14 +63,24 @@ function movepiece(column,row){
                 }
             }
             case "n":
-                if((Math.abs(storedpiece['row'] - row) == 2 && 
-                Math.abs(storedpiece['column'] - column) == 1) || 
-                (Math.abs(storedpiece['row'] - row) == 1 ))
-                {
-                if(currentstate[row][column] !='' && currentstate[storedpiece["row"]] // sjekker at destinasjon ikke er okkupert.
-                [storedpiece["column"]][0] == currentstate[row][column][0]){
-                    return;
-                }}
+            //sjekker for gyldig knight trekk
+            if((Math.abs(storedpiece['row'] - row) == 2 && 
+            Math.abs(storedpiece['column'] - column) == 1) || 
+            (Math.abs(storedpiece['row'] - row) == 1 && 
+            Math.abs(storedpiece['column'] - column) == 2)) {
+            // sjekker om kordinate er okkupert av samme brikke eller ikke
+            if(currentstate[row][column] !='' && currentstate[storedpiece["row"]] 
+            [storedpiece["column"]][0] == currentstate[row][column][0]){
+                return;
+            }
+                // beveger knight til stedet.
+                currentstate[row][column] = currentstate[storedpiece["row"]][storedpiece["column"]];
+                currentstate[storedpiece["row"]][storedpiece["column"]] = '';
+            } else {
+                return;
+            }
+            break;
+
 
         case "b":
 
