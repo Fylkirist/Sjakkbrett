@@ -19,51 +19,91 @@ function updateboard()
     
 }
 
-function movepiece(column,row){
+function movepiece(column,row)
+{
+    //Sjekk om bruker prøver å flytte til en rute med egen brikke på
+    if(whiteturn == true && currentstate[row][column][0] == "w" || whiteturn == false && currentstate[row][column][0] == "b")
+    {
+        return
+    }
+    //Finn ut hvilken brikke som skal flyttes
     switch(currentstate[storedpiece["row"]][storedpiece["column"]][1])
     {
         case "r":
+            //Tårnet kan bare flyttes i rett linje så om både x og y er forskjellige så flytter vi ikke brikken
             if(storedpiece['row']!=row && storedpiece['column']!=column)
             {
                 return
             }
-            else if (storedpiece['row']!=row)
+            //Om Y er forskjellig sjekker vi om noe er i veien i samme kolonne
+            else if(storedpiece['row']!=row && storedpiece['column']==column)
             {
-                if(storedpiece['row']<row)
+                if(row>storedpiece['row'])
                 {
-                    for(i=storedpiece['row'];i<row;i++)
-                    {
-                        if (currentstate[i][storedpiece['column']]!='')
+                    for (i=storedpiece['row']+1;row>i;i++){
+                        if(currentstate[i][storedpiece['column']]!='')
                         {
                             return
                         }
-                    
+                        else{
+                            continue
+                        }
                     }
+                    //om det ikke er noe i veien så flytter vi brikken
+                    currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
+                    currentstate[storedpiece['row']][storedpiece['column']]=''
                 }
-                else(storedpiece['row']>row)
+                else{
+                    for (i=storedpiece['row']-1;row<i;i--){
+                        if(currentstate[i][storedpiece['column']]!=''){
+                            return
+                        }
+                        else{
+                            continue
+                        }
+                    }
+                    //om det ikke er noe i veien så flytter vi brikken
+                    currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
+                    currentstate[storedpiece['row']][storedpiece['column']]=''
+                }
+            }
+            //Om X er forskjellig sjekker vi om noe er i veien på samme rad
+            else if(storedpiece['row']==row && storedpiece['column']!=column){
+                if(column>storedpiece['column'])
                 {
-                else (storedpiece['row']>row){
-                    for(i=storedpiece['row'];i>row;i++)
-                    {
-                        if (currentstate[i]!='')
+                    for (i=storedpiece['column']+1;column>i;i++){
+                        if(currentstate['row'][storedpiece[i]]!='')
                         {
                             return
                         }
-                    
+                        else{
+                            continue
+                        }
                     }
+                    //om det ikke er noe i veien så flytter vi brikken
+                    currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
+                    currentstate[storedpiece['row']][storedpiece['column']]=''
+                }
+                else{
+                    for (i=storedpiece['column']-1;column<i;i--){
+                        if(currentstate['row'][storedpiece[i]]!=''){
+                            return
+                        }
+                        else{
+                            continue
+                        }
+                    }
+                    //om det ikke er noe i veien så flytter vi brikken
+                    currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
+                    currentstate[storedpiece['row']][storedpiece['column']]=''
                 }
             }
             else
             {
-                for(i=storedpiece['column'];i<column;i++){
-                    if (currentstate[i]!='')
-                        {
-                            return
-                        }
-                }
+                return
             }
-            case "n":
-            //sjekker for gyldig knight trekk
+        case "n":
+        //sjekker for gyldig knight trekk
             if((Math.abs(storedpiece['row'] - row) == 2 && 
             Math.abs(storedpiece['column'] - column) == 1) || 
             (Math.abs(storedpiece['row'] - row) == 1 && 
@@ -89,7 +129,13 @@ function movepiece(column,row){
         case "k":
 
         case "p":
-
+        
+        if (whiteturn==true){
+            whiteturn=false
+        }
+        else{
+            whiteturn=true
+        }
     }
 }
 
