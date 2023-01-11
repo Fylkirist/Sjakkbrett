@@ -40,7 +40,8 @@ function movepiece(column,row){
                     
                     }
                 }
-                else(storedpiece['row']>row){
+                else(storedpiece['row']>row)
+                {
                     for(i=storedpiece['row'];i>row;i++)
                     {
                         if (currentstate[i]!='')
