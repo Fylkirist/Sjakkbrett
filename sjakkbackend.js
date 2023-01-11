@@ -1,12 +1,12 @@
 const initialstate = [
-    ['wr','wn','wb','wq','wk','wb','wn','wr'],
-    ['wp','wp','wp','wp','wp','wp','wp','wp'],
-    ['','','','','','','',''],
-    ['','','','','','','',''],
-    ['','','','','','','',''],
-    ['','','','','','','',''],
+    ['br','bn','bb','bq','bk','bb','bn','br'],
     ['bp','bp','bp','bp','bp','bp','bp','bp'],
-    ['br','bn','bb','bq','bk','bb','bn','br']
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['','','','','','','',''],
+    ['wp','wp','wp','wp','wp','wp','wp','wp'],
+    ['wr','wn','wb','wq','wk','wb','wn','wr']
 ]
 
 var currentstate = initialstate
@@ -14,9 +14,57 @@ var currentstate = initialstate
 var whiteturn = true;
 var storedpiece = null;
 
+const piecedict = {'wr':'♜','wn':'♞','wb':'♝','wq':'♛','wk':'♚','br':'♜','bn':'♞','bb':'♝','bq':'♛','bk':'♚','bp':'♟','wp':'♟'}
+
+function blankSpace(count,x,y)
+{
+    if (count==true)
+    {
+        return (`<div class="lightSquare" onclick="handleclick(${x},${y})"></div>`)
+    }
+    else
+    {
+        return (`<div class="darkSquare" onclick="handleclick(${x},${y})"></div>`)
+    }
+}
+
+function occupiedSpace(count,x,y,piece)
+{
+    if(count==true)
+    {
+        return (`<div class="lightSquare" onclick="handleclick(${x},${y})">${piecedict[piece]}</div>`)
+    }
+    else
+    {
+        return(`<div class="darkSquare" onclick="handleclick(${x},${y})>${piecedict[piece]}</div>`)
+    }
+}
+
 function updateboard()
 {   
-    
+    //Vi starter med å fjerne alle children ifra brettet
+    document.getElementById('board').innerHTML=''
+    //Vi sjekker hver rute i matrisen og bruker count for å se om tallet er delelig med 2 for å vite om det er svart eller hvit rute
+    let white = true;
+    for(x=0;x<8;x++){
+        for(y=0;y<8;y++){
+            console.log(currentstate[x][y])
+            if(currentstate[x][y]=='')
+            {
+                document.getElementById("board").innerHTML+=(blankSpace(white,x,y))
+            }
+            else
+            {
+                document.getElementById("board").innerHTML+=(occupiedSpace(white,x,y,currentstate[x][y]))
+            }
+            if(white == true){
+                white=false
+            }
+            else{
+                white=true
+            }
+        }
+    }
 }
 
 function movepiece(column,row)
@@ -143,6 +191,10 @@ function handleclick(column,row)
 {
     if (storedpiece!=null){
         movepiece(column,row)
+    }
+    if (currentstate[row][column]==''){
+        storedpiece=null
+        return
     }
     if (whiteturn==true){
         if (currentstate[row][column]!='' && currentstate[row][column][0]=='w')
