@@ -12,31 +12,31 @@ const initialstate = [
 var currentstate = initialstate
 
 var whiteturn = true;
-var storedpiece = null;
+var storedpiece = {'row':8,'column':8,'stored':false};
 
-const piecedict = {'wr':'♜','wn':'♞','wb':'♝','wq':'♛','wk':'♚','br':'♜','bn':'♞','bb':'♝','bq':'♛','bk':'♚','bp':'♟','wp':'♟'}
+const piecedict = {'wr':'♜','wn':'♞','wb':'♝','wq':'♛','wk':'♚','br':'♜','bn':'♞','bb':'♝','bq':'♛','bk':'♚','bp':'♟','wp':'♟','w':'whitePiece','b':'blackPiece'}
 
-function blankSpace(count,x,y)
+function blankSpace(count,y,x)
 {
     if (count==true)
     {
-        return (`<div class="lightSquare" onclick="handleclick(${x},${y})"></div>`)
+        return (`<div id="${y,x}" class="lightSquare" onclick="handleclick(${y},${x})"></div>`)
     }
     else
     {
-        return (`<div class="darkSquare" onclick="handleclick(${x},${y})"></div>`)
+        return (`<div id="${y,x}" class="darkSquare" onclick="handleclick(${y},${x})"></div>`)
     }
 }
 
-function occupiedSpace(count,x,y,piece)
+function occupiedSpace(white,y,x,piece)
 {
-    if(count==true)
+    if(white==true)
     {
-        return (`<div class="lightSquare" onclick="handleclick(${x},${y})">${piecedict[piece]}</div>`)
+        return (`<div id="${y,x}" class="lightSquare ${piecedict[piece[0]]}" onclick="handleclick(${y},${x})">${piecedict[piece]}</div>`)
     }
     else
     {
-        return(`<div class="darkSquare" onclick="handleclick(${x},${y})>${piecedict[piece]}</div>`)
+        return(`<div id="${y,x}" class="darkSquare ${piecedict[piece[0]]}" onclick="handleclick(${y},${x})">${piecedict[piece]}</div>`)
     }
 }
 
@@ -45,17 +45,23 @@ function updateboard()
     //Vi starter med å fjerne alle children ifra brettet
     document.getElementById('board').innerHTML=''
     //Vi sjekker hver rute i matrisen og bruker count for å se om tallet er delelig med 2 for å vite om det er svart eller hvit rute
-    let white = true;
-    for(x=0;x<8;x++){
-        for(y=0;y<8;y++){
-            console.log(currentstate[x][y])
-            if(currentstate[x][y]=='')
+    var white = true
+    for(y=0;y<8;y++){
+        if(y%2==0){
+            white = true;
+        }
+        else{
+            white = false;
+        }
+        for(x=0;x<8;x++){
+            console.log(currentstate[y][x])
+            if(currentstate[y][x]=='')
             {
-                document.getElementById("board").innerHTML+=(blankSpace(white,x,y))
+                document.getElementById("board").innerHTML+=(blankSpace(white,y,x))
             }
             else
             {
-                document.getElementById("board").innerHTML+=(occupiedSpace(white,x,y,currentstate[x][y]))
+                document.getElementById("board").innerHTML+=(occupiedSpace(white,y,x,currentstate[y][x]))
             }
             if(white == true){
                 white=false
@@ -164,6 +170,7 @@ function movepiece(column,row)
                 // beveger knight til stedet.
                 currentstate[row][column] = currentstate[storedpiece["row"]][storedpiece["column"]];
                 currentstate[storedpiece["row"]][storedpiece["column"]] = '';
+                updateboard()
             } else {
                 return;
             }
@@ -187,32 +194,47 @@ function movepiece(column,row)
     }
 }
 
-function handleclick(column,row)
+function handleclick(row,column)
 {
-    if (storedpiece!=null){
+    if (storedpiece['stored']==true)
+    {
         movepiece(column,row)
+        storedpiece['stored']=false
+        if(whiteturn==true){
+            whiteturn=false
+        }
+        else{
+            whiteturn=true
+        }
+        console.log(storedpiece)
+        console.log(whiteturn)
     }
-    if (currentstate[row][column]==''){
-        storedpiece=null
-        return
-    }
-    if (whiteturn==true){
+    else if (whiteturn==true)
+    {
         if (currentstate[row][column]!='' && currentstate[row][column][0]=='w')
         {
-            storedpiece = {"column":column,"row":row}
+            storedpiece = {"column":column,"row":row,"stored":true}
+            console.log(storedpiece)
         }
         else{
-            storedpiece = null
+            storedpiece = {"column":column,"row":row,"stored":false}
         }
     }
-    else{
+    else
+    {
         if (currentstate[row][column]!=''&& currentstate[row][column][0]=='b')
         {
-            storedpiece = {"column":column,"row":row}
+            storedpiece = {"column":column,"row":row,"stored":true}
+            console.log(storedpiece)
         }
         else{
-            storedpiece = null
+            storedpiece = {"column":column,"row":row,"stored":false}
         }
     }
+}
+
+function resetboard(){
+    currentstate = initialstate;
+    updateboard();
 }
 
