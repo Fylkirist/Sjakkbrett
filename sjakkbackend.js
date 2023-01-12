@@ -233,6 +233,43 @@ function movepiece(column,row)
                     break;
 
         case "q":
+            // Dronning kan bevege seg diagonalt og vertical og horisontalt, så sjekker om det er valid som gjort på rook og bishop
+        if (storedpiece['row'] == row || storedpiece['column'] == column) {
+            // sjekker om noe blokker horisontalt eller vertikalt
+            if (storedpiece['row'] == row) { // dronning beveger seg horisontalt.
+                var start = storedpiece['column'] < column ? storedpiece['column'] : column;
+                var end = storedpiece['column'] > column ? storedpiece['column'] : column;
+                for (var i = start + 1; i < end; i++) {
+                    if (currentstate[row][i] != '') {
+                        return;
+                    }
+                }
+            } else { // dronning beveger seg vertikal
+                var start = storedpiece['row'] < row ? storedpiece['row'] : row;
+                var end = storedpiece['row'] > row ? storedpiece['row'] : row;
+                for (var i = start + 1; i < end; i++) {
+                    if (currentstate[i][column] != '') {
+                        return;
+                    }
+                }
+                }
+    } else if (Math.abs(storedpiece['row'] - row) == Math.abs(storedpiece['column'] - column)) {
+        // sjekker om noe
+        var rowDirection = storedpiece['row'] < row ? 1 : -1;
+        var colDirection = storedpiece['column'] < column ? 1 : -1;
+            var checkRow = storedpiece['row'] + rowDirection;
+            var checkCol = storedpiece['column'] + colDirection;
+            while (checkRow != row) {
+                if (currentstate[checkRow][checkCol] != '') {
+                    return;
+                }
+                checkRow += rowDirection;
+                checkCol += colDirection;
+            }
+        } else {
+            return;
+        }
+        break;
 
         case "k":
 
