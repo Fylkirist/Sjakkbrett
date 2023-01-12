@@ -103,9 +103,16 @@ function movepiece(column,row)
                             continue
                         }
                     }
-                    //om det ikke er noe i veien så flytter vi brikken
+                    //om det ikke er noe i veien så flytter vi brikken og oppdaterer brettet
                     currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
                     currentstate[storedpiece['row']][storedpiece['column']]=''
+                    updateboard()
+                    if(whiteturn==true){
+                        whiteturn=false
+                    }
+                    else{
+                        whiteturn=true
+                    }
                 }
                 else{
                     for (i=storedpiece['row']-1;row<i;i--){
@@ -119,6 +126,13 @@ function movepiece(column,row)
                     //om det ikke er noe i veien så flytter vi brikken
                     currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
                     currentstate[storedpiece['row']][storedpiece['column']]=''
+                    updateboard()
+                    if(whiteturn==true){
+                        whiteturn=false
+                    }
+                    else{
+                        whiteturn=true
+                    }
                 }
             }
             //Om X er forskjellig sjekker vi om noe er i veien på samme rad
@@ -137,6 +151,13 @@ function movepiece(column,row)
                     //om det ikke er noe i veien så flytter vi brikken
                     currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
                     currentstate[storedpiece['row']][storedpiece['column']]=''
+                    updateboard()
+                    if(whiteturn==true){
+                        whiteturn=false
+                    }
+                    else{
+                        whiteturn=true
+                    }
                 }
                 else{
                     for (i=storedpiece['column']-1;column<i;i--){
@@ -150,6 +171,13 @@ function movepiece(column,row)
                     //om det ikke er noe i veien så flytter vi brikken
                     currentstate[row][column]=currentstate[storedpiece['row']][storedpiece['column']]
                     currentstate[storedpiece['row']][storedpiece['column']]=''
+                    updateboard()
+                    if(whiteturn==true){
+                        whiteturn=false
+                    }
+                    else{
+                        whiteturn=true
+                    }
                 }
             }
             else
@@ -171,6 +199,12 @@ function movepiece(column,row)
                 currentstate[row][column] = currentstate[storedpiece["row"]][storedpiece["column"]];
                 currentstate[storedpiece["row"]][storedpiece["column"]] = '';
                 updateboard()
+                if(whiteturn==true){
+                    whiteturn=false
+                }
+                else{
+                    whiteturn=true
+                }
             } else {
                 return;
             }
@@ -184,13 +218,6 @@ function movepiece(column,row)
         case "k":
 
         case "p":
-        
-        if (whiteturn==true){
-            whiteturn=false
-        }
-        else{
-            whiteturn=true
-        }
     }
 }
 
@@ -200,12 +227,6 @@ function handleclick(row,column)
     {
         movepiece(column,row)
         storedpiece['stored']=false
-        if(whiteturn==true){
-            whiteturn=false
-        }
-        else{
-            whiteturn=true
-        }
         console.log(storedpiece)
         console.log(whiteturn)
     }
