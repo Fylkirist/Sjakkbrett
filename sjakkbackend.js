@@ -178,6 +178,25 @@ function movepiece(column,row)
 
 
         case "b":
+              // Sjekker at løper bare går diagonalt
+              if (Math.abs(storedpiece['row'] - row) == Math.abs(storedpiece['column'] - column)) {
+                // sjekker om noen av egne brikker blokker.
+                var rowDirection = storedpiece['row'] < row ? 1 : -1;
+                var colDirection = storedpiece['column'] < column ? 1 : -1;
+                var checkRow = storedpiece['row'] + rowDirection;
+                var checkCol = storedpiece['column'] + colDirection;
+                while (checkRow != row) {
+                    if (currentstate[checkRow][checkCol] != '') {
+                        return;
+                    }
+                    checkRow += rowDirection;
+                    checkCol += colDirection;
+                    updateboard()
+                }
+                    } else {
+                        return;
+                    }
+                    break;
 
         case "q":
 
