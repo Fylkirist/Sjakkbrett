@@ -492,7 +492,7 @@ function resetboard()
     ]
     moveorder=[]
     whiteturn=true
-    document.getElementById('move-order').innerHTML=''
+    document.getElementById('move-order').innerHTML='<div>Move order:</div>'
     updateboard();
 }
 
