@@ -10,7 +10,7 @@ var currentstate = [
 ]
 
 var moveorder = []
-
+var statearray = []
 var whiteturn = true;
 var storedpiece = {'row':8,'column':8,'stored':false};
 
@@ -44,7 +44,14 @@ const thing=['a','b','c','d','e','f','g','h']
 
 function updatemoveorder()
 {
-    document.getElementById('move-order').innerHTML+=`<div class="movelistitem" >${thing[moveorder[moveorder.length-1][1]]}${8-moveorder[moveorder.length-1][0]}->${thing[moveorder[moveorder.length-1][3]]}${8-moveorder[moveorder.length-1][2]}</div>`
+    let newArray = []
+    for (let i = 0; i < currentstate.length; i++) 
+    {
+    newArray.push(currentstate[i].slice());
+    }
+    statearray.push(newArray);
+    document.getElementById('move-order').innerHTML+=`<div id="move${moveorder.length-1}" onclick="restoreposition(${moveorder.length})" class="movelistitem" >${moveorder.length}. ${thing[moveorder[moveorder.length-1][1]]}${8-moveorder[moveorder.length-1][0]}->${thing[moveorder[moveorder.length-1][3]]}${8-moveorder[moveorder.length-1][2]}</div>`
+    console.log(statearray)
 }
 
 function updateboard()
@@ -141,14 +148,7 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']]=''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
-                    {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
-                    }
+                    whiteturn=!whiteturn
                 }
                 else
                 {
@@ -166,14 +166,7 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']]=''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
-                    {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
-                    }
+                    whiteturn=!whiteturn
                 }
             }
             //Om X er forskjellig sjekker vi om noe er i veien på samme rad
@@ -197,14 +190,7 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']]=''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
-                    {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
-                    }
+                    whiteturn=!whiteturn
                 }
                 else{
                     for (i=storedpiece['column']-1;column<i;i--)
@@ -222,14 +208,7 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']]=''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
-                    {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
-                    }
+                    whiteturn=!whiteturn
                 }
             }
             else
@@ -253,14 +232,7 @@ function movepiece(column,row)
                 currentstate[storedpiece["row"]][storedpiece["column"]] = '';
                 moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                 updatemoveorder()
-                if(whiteturn==true)
-                {
-                    whiteturn=false
-                }
-                else
-                {
-                    whiteturn=true
-                }
+                whiteturn=!whiteturn
             } else {
                 return;
             }
@@ -288,14 +260,7 @@ function movepiece(column,row)
                 currentstate[storedpiece['row']][storedpiece['column']] = ''
                 moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                 updatemoveorder()
-                if(whiteturn==true)
-                {
-                    whiteturn=false
-                }
-                else
-                {
-                    whiteturn=true
-                }
+                whiteturn=!whiteturn
                 
                 } 
             else 
@@ -323,14 +288,7 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']] = ''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
-                    {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
-                    }
+                    whiteturn=!whiteturn
                 }
                 else
                 { // dronning beveger seg vertikal
@@ -346,13 +304,7 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']] = ''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true){
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
-                    }
+                    whiteturn=!whiteturn
                 }
             }
                 else if (Math.abs(storedpiece['row'] - row) == Math.abs(storedpiece['column'] - column))
@@ -375,14 +327,7 @@ function movepiece(column,row)
                         currentstate[storedpiece['row']][storedpiece['column']] = ''
                         moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                         updatemoveorder()
-                        if(whiteturn==true)
-                        {
-                            whiteturn=false
-                        }
-                        else
-                        {
-                            whiteturn=true
-                        }
+                        whiteturn=!whiteturn
                 }
                 else 
                 {
@@ -426,14 +371,7 @@ function movepiece(column,row)
                 currentstate[storedpiece['row']][storedpiece['column']] = ''
                 moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                 updatemoveorder()
-                if(whiteturn==true)
-                {
-                    whiteturn=false
-                }
-                else
-                {
-                    whiteturn=true
-                }
+                whiteturn=!whiteturn
             }
         case "p":
             if(currentstate[storedpiece['row']][storedpiece['column']][0]=='w')
@@ -444,13 +382,10 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']] = ''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
+                    whiteturn=!whiteturn
+                    if(row==0)
                     {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
+                        currentstate[row][column]="wq"
                     }
                 }
                 else if(Math.abs(storedpiece['row']-row)==1 && Math.abs(storedpiece['column']-column)==1 && currentstate[row][column]!='')
@@ -459,13 +394,10 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']] = ''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
+                    whiteturn=!whiteturn
+                    if(row==0)
                     {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
+                        currentstate[row][column]="wq"
                     }
                 }
                 else
@@ -481,13 +413,10 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']] = ''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
+                    whiteturn=!whiteturn
+                    if(row==7)
                     {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
+                        currentstate[row][column]="bq"
                     }
                 }
                 else if(Math.abs(storedpiece['row']-row)==1 && Math.abs(storedpiece['column']-column)==1 && currentstate[row][column]!='')
@@ -496,13 +425,10 @@ function movepiece(column,row)
                     currentstate[storedpiece['row']][storedpiece['column']] = ''
                     moveorder.push([storedpiece['row'],storedpiece['column'],row,column])
                     updatemoveorder()
-                    if(whiteturn==true)
+                    whiteturn=!whiteturn
+                    if(row==7)
                     {
-                        whiteturn=false
-                    }
-                    else
-                    {
-                        whiteturn=true
+                        currentstate[row][column]="bq"
                     }
                 }
                 else
@@ -552,7 +478,8 @@ function handleclick(row,column)
     }
 }
 
-function resetboard(){
+function resetboard()
+{
     currentstate = [
         ['br','bn','bb','bq','bk','bb','bn','br'],
         ['bp','bp','bp','bp','bp','bp','bp','bp'],
@@ -567,6 +494,27 @@ function resetboard(){
     whiteturn=true
     document.getElementById('move-order').innerHTML=''
     updateboard();
+}
+
+function restoreposition(position)
+{
+    console.log(statearray[position-1].slice())
+    while(moveorder.length>position)
+    {
+        document.getElementById(`move${moveorder.length-1}`).remove()
+        moveorder.pop()
+        statearray.pop()
+    }
+    currentstate=statearray[statearray.length-1].slice()
+    if(position%2!=0)
+    {
+        whiteturn=false
+    }
+    else
+    {
+        whiteturn=true
+    }
+    updateboard()
 }
 
 
