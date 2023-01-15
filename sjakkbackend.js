@@ -215,6 +215,7 @@ function movepiece(column,row)
             {
                 return
             }
+            break;
         case "n":
         //sjekker for gyldig knight trekk
             if((Math.abs(storedpiece['row'] - row) == 2 && 
@@ -340,7 +341,7 @@ function movepiece(column,row)
             if(Math.abs(storedpiece['row']-row)>1 || Math.abs(storedpiece['column']-column)>1)
             {
                 //Sjekk om spilleren prøver å rokkere
-                if(storedpiece['column'] - column === -2) {
+                if(storedpiece['column'] - column === -2 && row==storedpiece['row']) {
                     if(!hasPieceMoved(storedpiece) && !hasPieceMoved([storedpiece['row'], storedpiece['column'] + 3])) 
                     {
                         currentstate[storedpiece['row']][storedpiece['column'] + 1] = currentstate[storedpiece['row']][storedpiece['column'] + 3];
@@ -352,7 +353,7 @@ function movepiece(column,row)
                         whiteturn = !whiteturn;
                     }
                 }
-                else if(storedpiece['column'] - column === 2) {
+                else if(storedpiece['column'] - column === 2 && row==storedpiece['row']) {
                     if(!hasPieceMoved(storedpiece) && !hasPieceMoved([storedpiece['row'], storedpiece['column'] - 4])) 
                     {
                         currentstate[storedpiece['row']][storedpiece['column'] - 1] = currentstate[storedpiece['row']][storedpiece['column'] - 4];
@@ -364,6 +365,10 @@ function movepiece(column,row)
                         whiteturn = !whiteturn;
                     }
                 }
+                else
+                {
+                    return
+                }
             }
             else
             {
@@ -373,6 +378,7 @@ function movepiece(column,row)
                 updatemoveorder()
                 whiteturn=!whiteturn
             }
+            break
         case "p":
             if(currentstate[storedpiece['row']][storedpiece['column']][0]=='w')
             {
@@ -436,6 +442,7 @@ function movepiece(column,row)
                     return
                 }
             }
+            break
     }
 }
 
