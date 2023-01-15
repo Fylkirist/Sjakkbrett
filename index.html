@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        .movelistitem{
+            border: black 5px;
+            background-color: grey;
+            margin-top: 10px;
+            text-align: center;
+        }
         #board{
             display: grid;
             grid-template-columns: repeat(8, 100px);
@@ -29,15 +35,63 @@
         .darkSquare{
             background-color: rgb(181,136,99);
         }
-        .highlightedsquare{
-            background-color: green;
+        #board-container{
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            flex:1
+
         }
+        #controls {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            flex:1
+        }
+
+        #move-order {
+            width: 200px;
+            height: 500px;
+            overflow-y: scroll;
+        }
+        #main-container{
+            display: flex
+        }
+        #resetbutton{
+            width: fit-content;
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 4px;
+        }
+        #resetbutton:hover {
+            background-color: #3e8e41;
+}
     </style>
 </head>
 <body>
-    <div id="board">
+    <div id="main-container">
+        <div id="board-container">
+            <div id="board">
+            </div>
+        </div>
+        <div id="controls">
+            <button id="resetbutton" onclick="resetboard()">Reset board</button>
+            <div id="move-order">
+                <div>
+                    Move order:
+                </div>
+            </div>
+        </div>
     </div>
-    <button onclick="resetboard()">reset</button>
 </body>
 <script src="./sjakkbackend.js">
 </script>
